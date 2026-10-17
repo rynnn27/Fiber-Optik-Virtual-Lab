@@ -1,155 +1,322 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TKJ Fiber Optik Virtual Lab</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0b1220">
+<title>FO Lab 3D — Fiber Optic Fusion Splicing Simulator</title>
 <style>
-:root{--navy:#123047;--blue:#176b87;--teal:#38a3a5;--cream:#f5f4ee;--ink:#172b3a;--muted:#61717c;--line:#dce5e7;--white:#fff;--orange:#f0a35e;--green:#2d8a65;--red:#b84b4b}
-*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-header{background:linear-gradient(120deg,var(--navy),#176b87);color:white;padding:24px max(18px,calc((100% - 1180px)/2));}
-header .eyebrow{font-size:.78rem;letter-spacing:.13em;text-transform:uppercase;color:#bde5ed;font-weight:800}
-header h1{margin:5px 0;font-size:clamp(1.6rem,4vw,2.6rem);line-height:1.15}header p{margin:8px 0 0;max-width:760px;color:#e0f1f4}
-.wrap{max-width:1180px;margin:auto;padding:18px}
-.layout{display:grid;grid-template-columns:245px minmax(0,1fr);gap:18px;align-items:start}
-nav,.panel,.stat{background:white;border:1px solid var(--line);border-radius:16px}
-nav{padding:12px;position:sticky;top:12px}
-.navbtn{width:100%;text-align:left;border:0;background:transparent;color:var(--ink);padding:11px 12px;border-radius:10px;cursor:pointer;font-weight:650;margin:2px 0}
-.navbtn.active,.navbtn:hover{background:#e7f3f4;color:var(--navy)}
-.navbtn span{display:inline-block;width:25px}
-main{min-width:0}.panel{padding:clamp(16px,3vw,26px);margin-bottom:16px}
-h2{margin:0 0 12px;font-size:1.35rem}h3{margin:18px 0 8px;font-size:1.05rem}p{margin:8px 0}.muted{color:var(--muted)}.small{font-size:.86rem}
-.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.stat{padding:15px}.stat strong{font-size:1.65rem;display:block;color:var(--blue)}.stat span{font-size:.85rem;color:var(--muted)}
-button,.button{border:0;border-radius:10px;background:var(--blue);color:white;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer}
-button:hover{filter:brightness(.95)}button:disabled{opacity:.5;cursor:not-allowed}.secondary{background:#e7f0f2;color:var(--navy)}.warning{background:#fff1e2;color:#81450c}.success{background:#e4f4ec;color:#176446}
-input,select{font:inherit;padding:10px;border:1px solid #c9d6da;border-radius:9px;background:white;color:var(--ink);width:100%}label{display:block;font-weight:650;margin:10px 0 5px}
-.callout{padding:13px 15px;background:#eaf5f5;border-left:4px solid var(--teal);border-radius:8px;margin:12px 0}
-.pills{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.pill{border-radius:999px;padding:5px 10px;background:#e7f0f2;color:#245064;font-size:.8rem;font-weight:750}
-.steps{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0}.step{padding:8px 11px;border-radius:8px;background:#edf1f2;font-size:.85rem}.step.done{background:#d9f0e4;color:#176446}.step.current{background:#d8edf5;color:#124b65;outline:2px solid #8fcbd9}
-.diagram{background:#f0f6f7;border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
-svg{max-width:100%;height:auto;display:block;margin:auto}.equipment{border:1px solid var(--line);padding:12px;border-radius:12px;cursor:pointer;background:#fff;text-align:center}.equipment.selected{border:2px solid var(--teal);background:#edfafa}.equipment .emoji{font-size:2rem;display:block}
-.choice{display:flex;gap:10px;align-items:flex-start;padding:11px;border:1px solid var(--line);border-radius:10px;margin:8px 0;cursor:pointer;font-weight:500}.choice input{width:auto;margin-top:5px}.choice:has(input:checked){background:#edf8f8;border-color:var(--teal)}
-.feedback{padding:12px;border-radius:10px;margin:12px 0}.feedback.good{background:#e4f4ec;color:#176446}.feedback.bad{background:#fff0e9;color:#873c2d}
-table{border-collapse:collapse;width:100%;font-size:.9rem}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line)}th{background:#f0f6f7}
-.progress{height:9px;background:#e6edef;border-radius:99px;overflow:hidden;margin:8px 0}.progress div{height:100%;background:var(--teal);width:0;transition:width .25s}
-.hidden{display:none!important}.footer{text-align:center;color:var(--muted);font-size:.8rem;padding:20px}
-@media(max-width:800px){.layout{grid-template-columns:1fr}nav{position:static;display:flex;overflow-x:auto;gap:4px}.navbtn{white-space:nowrap;width:auto}.navbtn span{width:auto;margin-right:5px}.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}}
-@media print{header,nav,.noprint,button{display:none!important}.layout{display:block}.panel{break-inside:avoid;border:0}.wrap{max-width:none;padding:0}body{background:white}}
+:root{color-scheme:dark;--bg:#0b1220;--panel:#121d2d;--panel2:#18263a;--line:#2b3b52;--text:#eaf2fb;--muted:#9fb0c5;--blue:#4cb7ff;--green:#49d69a;--amber:#ffc36a;--red:#ff7474}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button{font:inherit;font-weight:650;color:var(--text);border:1px solid #40536d;border-radius:11px;background:#22334a;padding:11px 12px;min-height:42px;cursor:pointer}
+button:disabled{opacity:.38;cursor:not-allowed}
+button.primary{background:#075f9f;border-color:#2689cc}button.success{background:#126344;border-color:#23865f}button.warning{background:#6c421c;border-color:#9b642d}button.subtle{background:#141f30}
+header{height:60px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 13px;background:#0e1726;border-bottom:1px solid var(--line)}
+.logo{font-weight:900;font-size:16px;letter-spacing:.4px}.logo b{color:var(--blue)}.sub{font-size:10px;color:var(--muted)}
+.tag{font-size:10px;border:1px solid #345d7d;color:#9fdbff;border-radius:99px;padding:5px 8px;white-space:nowrap}
+main{height:calc(100dvh - 98px);display:grid;grid-template-rows:minmax(230px,1fr) auto;min-height:0}
+#viewport{position:relative;min-height:230px;overflow:hidden;background:radial-gradient(ellipse at 50% 35%,#111b29,#080c13 78%)}
+#scene{width:100%;height:100%;display:block;touch-action:none}
+.hint{position:absolute;top:9px;left:9px;max-width:70%;font-size:10px;color:#d7e7f8;background:#09111edc;border:1px solid #33475f;border-radius:9px;padding:7px 9px;pointer-events:none}
+.camtools{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:5px}.camtools button{min-height:32px;padding:6px 8px;font-size:11px;background:#09111edb}
+#toast{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);display:none;background:#111c2c;border:1px solid #45617e;border-radius:10px;padding:9px 12px;width:max-content;max-width:90%;font-size:12px;text-align:center}
+#controls{max-height:48%;overflow:auto;background:var(--panel);border-top:1px solid var(--line);padding:11px 12px calc(12px + env(safe-area-inset-bottom))}
+#controls .buttons button.active-tool{outline:2px solid var(--blue);box-shadow:0 0 0 3px #4cb7ff25}
+.stage-note{font-size:10px;color:#8fcfff;margin-top:6px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}.eyebrow{font-size:10px;color:var(--muted);letter-spacing:.8px}.stepname{font-weight:850;font-size:15px;margin-top:2px}
+.progress{height:5px;background:#2a394d;border-radius:20px;margin:9px 0;overflow:hidden}.progress div{height:100%;width:0;background:linear-gradient(90deg,#329bff,#49d69a);transition:width .25s}
+#instruction{font-size:12px;color:#d2dfef;line-height:1.5;padding:9px 10px;border:1px solid var(--line);background:#0d1726;border-radius:10px;margin-bottom:9px}
+.buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.buttons button{font-size:12px}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:8px}.metric{border:1px solid var(--line);background:#0d1726;border-radius:10px;padding:8px}.metric span{display:block;color:var(--muted);font-size:9px}.metric strong{display:block;font-size:14px;margin-top:3px}
+#lcd{position:absolute;left:10px;bottom:10px;width:min(44%,250px);border:1px solid #327eaa;background:#041521eF;border-radius:9px;padding:8px;font:10px/1.4 ui-monospace,SFMono-Regular,monospace;box-shadow:0 4px 22px #0006;pointer-events:none}
+.lcdtitle{color:#77d8ff;font-weight:bold;display:flex;justify-content:space-between}.lcdline{display:flex;justify-content:space-between;color:#a8e9ff}
+footer{height:38px;display:flex;align-items:center;justify-content:center;text-align:center;padding:5px 10px;background:#0e1726;border-top:1px solid var(--line);color:#8fa1b7;font-size:9px}
+@media(min-width:800px){main{grid-template-rows:1fr;height:calc(100dvh - 98px)}#controls{position:absolute;right:16px;top:76px;width:340px;max-height:calc(100dvh - 130px);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 35px #0008}#viewport{grid-row:1}#lcd{left:16px;bottom:16px}.hint{max-width:calc(100% - 380px)}}
 </style>
 </head>
 <body>
-<header><div class="eyebrow">SMK • Plus Pelita Nusantara</div><h1>Fiber Optik Virtual Lab</h1><p>Laboratorium virtual untuk mengenal komponen fiber optik, mempelajari prosedur fusion splicing, menguji redaman, dan mengevaluasi pemahaman.</p></header>
-<div class="wrap"><div class="layout">
-<nav aria-label="Menu pembelajaran">
-<button class="navbtn active" data-page="home"><span>⌂</span> Beranda</button>
-<button class="navbtn" data-page="materi"><span>▤</span> Materi</button>
-<button class="navbtn" data-page="lab"><span>⚙</span> Simulasi Splicing</button>
-<button class="navbtn" data-page="kuis"><span>✓</span> Kuis & Evaluasi</button>
-<button class="navbtn" data-page="laporan"><span>▦</span> Laporan Nilai</button>
-</nav>
+<header>
+ <div><div class="logo">FO <b>LAB 3D</b></div><div class="sub">Virtual Fiber Optic Laboratory • SMK TKJ</div></div>
+ <div class="tag">MODE EDUKASI</div>
+</header>
 <main>
-<section id="page-home" class="page">
-<div class="panel"><div class="pills"><span class="pill">Kelas XI–XII TKJ</span><span class="pill">Praktik virtual</span><span class="pill">Progres tersimpan di browser</span></div>
-<h2>Selamat datang di laboratorium</h2><p>Ikuti urutan belajar: pahami konsep → kenali alat → lakukan simulasi → kerjakan evaluasi → periksa laporan.</p>
-<div class="grid3"><div class="stat"><strong id="homeProgress">0%</strong><span>Progres belajar</span></div><div class="stat"><strong id="homeScore">—</strong><span>Skor kuis terakhir</span></div><div class="stat"><strong id="homeLevel">Pemula</strong><span>Level saat ini</span></div></div>
-<h3>Data peserta</h3><div class="grid2"><div><label for="studentName">Nama siswa</label><input id="studentName" placeholder="Masukkan nama siswa"></div><div><label for="studentClass">Kelas</label><input id="studentClass" placeholder="Contoh: XII TKJ 1"></div></div>
-<div class="callout"><b>Catatan keselamatan:</b> ini adalah simulasi edukasi, bukan pengganti praktik dengan instruktur. Jangan melihat langsung ke ujung serat optik; ikuti SOP laboratorium dan prosedur penanganan serpihan serat.</div>
-<p><button data-goto="materi">Mulai pembelajaran →</button></p></div>
-<div class="panel"><h2>Tujuan pembelajaran</h2><ul><li>Menjelaskan prinsip penghantaran cahaya pada serat optik.</li><li>Membedakan core, cladding, coating, dan elemen penguat kabel.</li><li>Mengidentifikasi alat utama untuk fusion splicing.</li><li>Menyusun urutan kerja splicing secara benar.</li><li>Menafsirkan nilai loss secara sederhana dan menjawab soal evaluasi.</li></ul></div>
-</section>
-<section id="page-materi" class="page hidden">
-<div class="panel"><h2>Materi 1 — Konsep dasar fiber optik</h2>
-<p>Fiber optik adalah media transmisi yang membawa informasi sebagai pulsa cahaya melalui serat kaca atau plastik. Pada serat optik komunikasi, cahaya dipandu oleh perbedaan indeks bias antara <b>core</b> dan <b>cladding</b>, dengan prinsip pemantulan internal total pada kondisi yang sesuai.</p>
-<div class="diagram"><svg viewBox="0 0 620 210" role="img" aria-label="Ilustrasi core, cladding, dan coating fiber optik"><rect x="28" y="50" width="564" height="110" rx="54" fill="#d7e4e8" stroke="#7b969f" stroke-width="2"/><rect x="28" y="78" width="564" height="54" rx="27" fill="#8bd3dc" stroke="#267e91" stroke-width="2"/><path d="M50 105 L130 105 L160 86 L205 124 L250 86 L295 124 L340 86 L385 124 L430 86 L475 105 L565 105" fill="none" stroke="#fff5a8" stroke-width="5" stroke-linejoin="round"/><text x="310" y="28" text-anchor="middle" font-size="15" fill="#172b3a">Coating / pelindung luar</text><path d="M310 32 L310 52" stroke="#61717c" stroke-width="1.5"/><text x="310" y="185" text-anchor="middle" font-size="15" fill="#172b3a">Cladding mengelilingi core</text><text x="310" y="204" text-anchor="middle" font-size="13" fill="#176b87">Core: jalur utama rambatan cahaya</text></svg></div>
-<div class="grid3"><div class="stat"><strong>Core</strong><span>Inti tempat cahaya merambat</span></div><div class="stat"><strong>Cladding</strong><span>Lapisan optik dengan indeks bias lebih rendah</span></div><div class="stat"><strong>Coating</strong><span>Pelindung serat dari kerusakan mikro</span></div></div>
-<h3>Jenis serat</h3><ul><li><b>Single-mode (SM):</b> core kecil, umum untuk jarak jauh dan jaringan akses telekomunikasi.</li><li><b>Multimode (MM):</b> core lebih besar, umum pada sejumlah aplikasi jarak pendek.</li></ul>
-<div class="callout">Ingat: ukuran core dan warna kabel saja tidak cukup untuk memastikan spesifikasi. Periksa label, datasheet, dan standar instalasi.</div>
-<button class="success" onclick="markLesson('konsep')">Tandai materi selesai ✓</button></div>
-<div class="panel"><h2>Materi 2 — Alat dan fungsi</h2><div class="grid2">
-<div><h3>Fusion splicer</h3><p>Menyelaraskan dan melebur dua ujung serat menggunakan busur listrik.</p></div><div><h3>Fiber cleaver</h3><p>Membuat potongan ujung serat yang rata dan tegak sesuai spesifikasi alat.</p></div>
-<div><h3>Stripper</h3><p>Melepas coating sesuai prosedur tanpa merusak serat kaca.</p></div><div><h3>Alcohol wipes / tisu bebas serat</h3><p>Membersihkan serat menggunakan bahan dan prosedur yang ditetapkan.</p></div>
-<div><h3>Protection sleeve</h3><p>Melindungi area sambungan setelah proses fusion.</p></div><div><h3>Optical power meter + light source</h3><p>Mengukur daya optik dan membantu pengujian loss link.</p></div>
-</div><button class="success" onclick="markLesson('alat')">Tandai materi selesai ✓</button></div>
-<div class="panel"><h2>Materi 3 — Loss dan pengujian</h2><p>Loss adalah penurunan daya optik antara titik pengukuran. Penyebabnya dapat meliputi sambungan yang kurang baik, konektor kotor, tekukan berlebihan, atau kerusakan kabel.</p>
-<div class="callout"><b>Rumus sederhana:</b> Loss (dB) = daya masuk (dBm) − daya terima (dBm), jika kedua nilai diukur pada titik yang sesuai dan kondisi pengujian konsisten.</div>
-<p>Contoh: daya masuk −3 dBm dan daya terima −5 dBm menghasilkan loss 2 dB. Nilai yang memenuhi syarat harus dibandingkan dengan anggaran link, spesifikasi perangkat, dan standar proyek—tidak ada satu batas universal untuk semua link.</p>
-<button class="success" onclick="markLesson('loss')">Tandai materi selesai ✓</button></div>
-</section>
-<section id="page-lab" class="page hidden">
-<div class="panel"><h2>Simulasi praktik fusion splicing</h2><p class="muted">Pilih alat sesuai urutan kerja. Simulasi ini mengajarkan alur dan alasan setiap langkah; parameter aktual mengikuti SOP dan manual perangkat.</p>
-<div class="grid3" id="equipmentGrid">
-<button class="equipment" data-tool="stripper"><span class="emoji">🛠️</span>Stripper</button><button class="equipment" data-tool="cleaner"><span class="emoji">🧻</span>Pembersih</button><button class="equipment" data-tool="cleaver"><span class="emoji">✂️</span>Cleaver</button><button class="equipment" data-tool="splicer"><span class="emoji">⚡</span>Fusion splicer</button><button class="equipment" data-tool="sleeve"><span class="emoji">🧩</span>Protection sleeve</button><button class="equipment" data-tool="tester"><span class="emoji">📟</span>Alat ukur</button>
-</div>
-<div class="steps" id="stepIndicators"></div>
-<div class="diagram"><svg viewBox="0 0 640 180" role="img" aria-label="Ilustrasi dua serat optik yang akan disambung"><rect x="35" y="65" width="220" height="30" rx="6" fill="#b6cbd1"/><rect x="385" y="65" width="220" height="30" rx="6" fill="#b6cbd1"/><rect x="35" y="74" width="220" height="12" rx="3" fill="#57b8c7"/><rect x="385" y="74" width="220" height="12" rx="3" fill="#57b8c7"/><rect x="250" y="69" width="65" height="22" rx="4" fill="#d6e7e9" stroke="#176b87" stroke-dasharray="4 3"/><rect x="325" y="69" width="65" height="22" rx="4" fill="#d6e7e9" stroke="#176b87" stroke-dasharray="4 3"/><path d="M310 50 L330 50 M320 40 L320 60" stroke="#f0a35e" stroke-width="3"/><text x="320" y="128" text-anchor="middle" font-size="14" fill="#172b3a">Area sambungan</text><text x="145" y="45" text-anchor="middle" font-size="13" fill="#172b3a">Serat A</text><text x="495" y="45" text-anchor="middle" font-size="13" fill="#172b3a">Serat B</text></svg></div>
-<h3 id="stepTitle">Langkah 1: Siapkan serat</h3><p id="stepDesc">Pilih alat yang sesuai untuk langkah aktif.</p>
-<div id="labFeedback" class="feedback hidden" role="status"></div>
-<div class="grid2"><button class="secondary" id="resetLab">Ulangi simulasi</button><button id="nextStep" disabled>Langkah berikutnya →</button></div>
-<div class="callout"><b>Keselamatan:</b> serpihan serat kaca sangat kecil dan dapat melukai. Gunakan wadah khusus limbah serat, jangan menyentuh atau meniup serpihan, dan ikuti arahan instruktur. Jangan menatap ujung konektor/serat untuk memeriksa cahaya.</div>
-</div>
-</section>
-<section id="page-kuis" class="page hidden">
-<div class="panel"><h2>Kuis evaluasi</h2><p>10 soal pilihan ganda. Jawaban dinilai otomatis setelah dikirim. Skor maksimal 100.</p><div class="grid2"><div><label for="quizName">Nama siswa</label><input id="quizName" placeholder="Nama sesuai daftar kelas"></div><div><label for="quizClass">Kelas</label><input id="quizClass" placeholder="Contoh: XI TKJ 2"></div></div>
-<div class="progress"><div id="quizProgress"></div></div><div id="quizQuestions"></div><button id="submitQuiz">Kirim jawaban & hitung nilai</button><div id="quizResult" class="hidden"></div></div>
-</section>
-<section id="page-laporan" class="page hidden">
-<div class="panel"><h2>Laporan hasil belajar</h2><p class="muted">Data disimpan di localStorage pada browser dan perangkat ini. Data tidak otomatis terkirim ke guru atau perangkat lain.</p>
-<div class="grid3"><div class="stat"><strong id="reportName">—</strong><span>Nama siswa</span></div><div class="stat"><strong id="reportScore">—</strong><span>Skor terbaru</span></div><div class="stat"><strong id="reportLevel">Pemula</strong><span>Level</span></div></div>
-<h3>Rincian capaian</h3><table><thead><tr><th>Komponen</th><th>Hasil</th><th>Status</th></tr></thead><tbody id="reportRows"></tbody></table>
-<h3>Riwayat kuis</h3><div style="overflow-x:auto"><table><thead><tr><th>Tanggal</th><th>Nama</th><th>Kelas</th><th>Benar</th><th>Skor</th><th>Level</th></tr></thead><tbody id="historyRows"></tbody></table></div>
-<div class="pills noprint"><button id="exportCsv">Unduh laporan CSV</button><button class="secondary" id="printReport">Cetak / Simpan PDF</button><button class="warning" id="clearHistory">Hapus riwayat lokal</button></div>
-<div class="callout">Untuk laporan tingkat kelas yang terkumpul dari banyak perangkat, hubungkan media ini ke backend sekolah atau ekspor CSV dari setiap perangkat lalu gabungkan oleh guru.</div>
-</div></section>
-</main></div><div class="footer">TKJ Fiber Optik Virtual Lab • Media latihan pembelajaran • Ikuti SOP laboratorium sekolah</div></div>
-<script>
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const STORAGE='tkjFiberOptikLab_v1';
-const state={lessons:new Set(),step:0,doneSteps:new Set(),tool:null,quizSubmitted:false};
-const labSteps=[
-{title:'Langkah 1: Lepas coating',desc:'Gunakan stripper yang sesuai untuk melepas coating pada panjang yang ditetapkan SOP.',tool:'stripper',why:'Coating perlu dilepas pada area sambungan, tetapi serat kaca tidak boleh tergores.'},
-{title:'Langkah 2: Bersihkan serat',desc:'Bersihkan serat menggunakan bahan yang ditetapkan dan tisu bebas serat.',tool:'cleaner',why:'Kontaminan dapat mengganggu kualitas cleave dan sambungan.'},
-{title:'Langkah 3: Potong dengan cleaver',desc:'Letakkan serat pada fiber cleaver dan lakukan cleaving sesuai petunjuk alat.',tool:'cleaver',why:'Ujung potongan yang baik membantu penyelarasan dan mengurangi loss sambungan.'},
-{title:'Langkah 4: Lakukan fusion splice',desc:'Tempatkan kedua serat pada fusion splicer, periksa posisi, lalu jalankan program sesuai jenis serat dan manual perangkat.',tool:'splicer',why:'Mesin menyelaraskan serat dan melebur ujungnya menggunakan busur listrik.'},
-{title:'Langkah 5: Lindungi sambungan',desc:'Geser protection sleeve ke area sambungan dan panaskan menggunakan pemanas yang sesuai.',tool:'sleeve',why:'Sleeve membantu melindungi sambungan dari tekanan mekanis.'},
-{title:'Langkah 6: Uji hasil',desc:'Periksa estimasi splice loss pada mesin dan lakukan pengukuran link dengan metode/alat yang ditentukan.',tool:'tester',why:'Pemeriksaan dan pengukuran diperlukan untuk memastikan link memenuhi target proyek.'}
+ <section id="viewport">
+  <canvas id="scene" aria-label="Scene laboratorium fiber optic 3D"></canvas>
+  <div class="hint">Geser untuk memutar • Cubit dua jari / scroll untuk zoom</div>
+  <div class="camtools"><button id="resetCamera">Reset kamera</button><button id="zoomIn">＋ Zoom</button><button id="zoomOut">－ Zoom</button></div>
+  <div id="lcd">
+   <div class="lcdtitle"><span>FO SPLICER / LCD</span><span id="lcdStatus">READY</span></div>
+   <div class="lcdline"><span>LEFT FIBER</span><span id="leftAlign">X: --</span></div>
+   <div class="lcdline"><span>RIGHT FIBER</span><span id="rightAlign">X: --</span></div>
+   <div class="lcdline"><span>CORE OFFSET</span><span id="offset">-- μm</span></div>
+   <div class="lcdline"><span>EST. LOSS</span><span id="lcdLoss">-- dB</span></div>
+  </div>
+  <div id="toast"></div>
+ </section>
+ <section id="controls">
+  <div class="row"><div><div class="eyebrow">LANGKAH PRAKTIK</div><div class="stepname" id="stepTitle">1. Persiapan alat</div></div><div class="tag" id="stepCount">1 / 7</div></div>
+  <div class="progress"><div id="progressBar"></div></div>
+  <div id="instruction">Periksa alat dan area kerja. Mulai simulasi untuk mengaktifkan langkah praktik.</div>
+  <div id="stageNote" class="stage-note">Petunjuk: lakukan hanya tindakan yang diminta pada tahap aktif.</div>
+  <div class="buttons">
+   <button id="doStep" class="primary">Mulai / lakukan langkah</button>
+   <button id="nextStep" class="success" disabled>Berikutnya →</button>
+   <button id="lid" class="subtle">Buka penutup</button>
+   <button id="clean" class="subtle">Bersihkan fiber</button>
+   <button id="fusion" class="warning" disabled>⚡ Mulai fusion</button>
+   <button id="reset" class="subtle">Ulangi simulasi</button>
+  </div>
+  <div class="metrics">
+   <div class="metric"><span>SKOR PRAKTIK</span><strong id="score">0 / 100</strong></div>
+   <div class="metric"><span>ESTIMASI INSERTION LOSS</span><strong id="loss">— dB</strong></div>
+   <div class="metric"><span>KUALITAS SIMULASI</span><strong id="quality">Belum diuji</strong></div>
+  </div>
+ </section>
+</main>
+<footer>Model edukasi: nilai loss adalah estimasi ilustratif, bukan hasil pengukuran atau jaminan kualitas sambungan nyata.</footer>
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+
+const $ = s => document.querySelector(s);
+const canvas = $('#scene'), viewport = $('#viewport');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.shadowMap.enabled = true;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0x080c13, 13, 30);
+const camera = new THREE.PerspectiveCamera(43, 1, .1, 100);
+const target = new THREE.Vector3(0, 1.1, 0);
+let azimuth = .7, polar = 1.0, radius = 10.7;
+const hemi = new THREE.HemisphereLight(0x9db6d0, 0x10151c, 1.15); scene.add(hemi);
+const key = new THREE.DirectionalLight(0xd8e5f5, 1.7); key.position.set(4, 9, 5); key.castShadow = true; scene.add(key);
+const fill = new THREE.PointLight(0x2478bd, 12, 18); fill.position.set(-4, 4, -3); scene.add(fill);
+const mat = (c,r=.5,m=.1) => new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m});
+const M = {
+ table:mat(0x273648,.75), edge:mat(0x52677e,.45,.3), body:mat(0x27313e,.34,.55),
+ dark:mat(0x0b111a,.4,.2), rubber:mat(0x10161d,.9), blue:mat(0x1689d2,.3,.2),
+ steel:mat(0xb7c8d8,.25,.75), orange:mat(0xffa33d,.35,.2), white:mat(0xe1e9f2,.35),
+ screen:new THREE.MeshStandardMaterial({color:0x062d48,emissive:0x087bb4,emissiveIntensity:.8,roughness:.2}),
+ fiber:new THREE.MeshStandardMaterial({color:0x44d8ff,emissive:0x087da8,emissiveIntensity:.7,roughness:.25}),
+ glass:new THREE.MeshStandardMaterial({color:0x8ce8ff,emissive:0x087da8,emissiveIntensity:.4,transparent:true,opacity:.75}),
+ green:new THREE.MeshStandardMaterial({color:0x6dffd1,emissive:0x138d68,emissiveIntensity:.65})
+};
+const root = new THREE.Group(); scene.add(root);
+function box(parent,name,size,pos,material){const o=new THREE.Mesh(new THREE.BoxGeometry(...size),material);o.name=name;o.position.set(...pos);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o}
+function cyl(parent,name,r1,r2,h,pos,material,seg=20,rot=[0,0,0]){const o=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,seg),material);o.name=name;o.position.set(...pos);o.rotation.set(...rot);o.castShadow=true;parent.add(o);return o}
+function tube(parent,points,material,r=.018){const c=new THREE.CatmullRomCurve3(points.map(p=>new THREE.Vector3(...p)));const o=new THREE.Mesh(new THREE.TubeGeometry(c,40,r,8,false),material);parent.add(o);return o}
+
+// Workbench and floor
+box(root,'Meja laboratorium',[8,.22,5],[0,.82,0],mat(0x101720,.92,.05));
+box(root,'Bibir meja',[8.1,.07,5.1],[0,.68,0],mat(0x263343,.62,.18));
+for(const x of [-3.3,3.3]) for(const z of [-1.8,1.8]) box(root,'Kaki meja',[.18,.68,.18],[x,.3,z],M.dark);
+box(root,'Alas kerja',[5,.035,2.8],[0,.96,0],mat(0x080d14,.98,.02));
+const grid=new THREE.GridHelper(24,24,0x1c2a39,0x111923);grid.position.y=.18;root.add(grid);
+
+// Fusion splicer
+const machine=new THREE.Group();machine.position.set(0,1.0,-.1);root.add(machine);
+box(machine,'Bodi fusion splicer',[3,.55,1.6],[0,.28,0],M.body);
+box(machine,'Panel depan',[2.72,.07,.1],[0,.08,.82],M.dark);
+box(machine,'Area kerja',[2.45,.09,.65],[0,.59,-.42],M.dark);
+box(machine,'Bingkai LCD',[1.18,.075,.66],[0,.62,.13],mat(0x263343,.62,.18)).rotation.x=-.18;
+box(machine,'Layar LCD',[1.05,.025,.53],[0,.67,.13],M.screen).rotation.x=-.18;
+for(let i=0;i<4;i++)box(machine,'Grafik LCD',[.7-i*.07,.012,.018],[-.1,.70,.30-i*.09],M.glass).rotation.x=-.18;
+for(let i=0;i<4;i++)cyl(machine,'Tombol mesin',.05,.05,.035,[.78+i*.16,.61,.4],i===0?M.orange:M.steel,16,[Math.PI/2,0,0]);
+for(const x of [-.8,.8]){
+ box(machine,'Holder fiber',[.55,.13,.48],[x,.69,-.42],mat(0x263343,.62,.18));
+ box(machine,'Clamp biru',[.44,.075,.14],[x,.78,-.42],M.blue);
+ box(machine,'Alur fiber',[.46,.02,.035],[x,.823,-.42],M.dark);
+}
+for(const x of [-.15,.15])cyl(machine,'Elektroda',.025,.035,.22,[x,.73,-.42],M.steel,16,[0,0,Math.PI/2]);
+
+// Hinged transparent cover
+const lidPivot=new THREE.Group();lidPivot.position.set(0,.72,-.78);machine.add(lidPivot);
+box(lidPivot,'Penutup transparan',[2.66,.07,.77],[0,.22,.37],new THREE.MeshStandardMaterial({color:0x77dfff,transparent:true,opacity:.22,metalness:.15,roughness:.15,side:THREE.DoubleSide}));
+box(lidPivot,'Pegangan penutup',[.48,.06,.08],[0,.22,.72],M.steel);
+let lidOpen=false;
+
+// Fibers, tips, and arc
+const fiberGroup=new THREE.Group();machine.add(fiberGroup);
+let fiberMaterial=M.fiber;
+const leftFiber=tube(fiberGroup,[[-2,.67,-.42],[-1.45,.67,-.42],[-.8,.82,-.42],[-.20,.82,-.42]],fiberMaterial,.022);
+const rightFiber=tube(fiberGroup,[[2,.67,-.42],[1.45,.67,-.42],[.8,.82,-.42],[.20,.82,-.42]],fiberMaterial,.022);
+const tipL=cyl(fiberGroup,'Ujung fiber kiri',.023,.023,.12,[-.17,.82,-.42],M.glass,12,[0,0,Math.PI/2]);
+const tipR=cyl(fiberGroup,'Ujung fiber kanan',.023,.023,.12,[.17,.82,-.42],M.glass,12,[0,0,Math.PI/2]);
+// Lapisan coating/jacket di dekat ujung fiber. Lapisan ini dihilangkan pada langkah stripping.
+const coatingMat=mat(0x1689d2,.35,.12);
+const coatL=cyl(fiberGroup,'Coating kiri',.052,.052,.62,[-.53,.82,-.42],coatingMat,18,[0,0,Math.PI/2]);
+const coatR=cyl(fiberGroup,'Coating kanan',.052,.052,.62,[.53,.82,-.42],coatingMat,18,[0,0,Math.PI/2]);
+// Partikel kontaminasi ilustratif yang hilang setelah proses cleaning.
+const dirtMat=new THREE.MeshStandardMaterial({color:0xf0b45b,emissive:0x7b3e0a,emissiveIntensity:.35});
+const dirt=[];
+for(let i=0;i<9;i++){const d=new THREE.Mesh(new THREE.SphereGeometry(.025,8,6),dirtMat);d.position.set(-.65+Math.random()*1.3,.86+Math.random()*.06,-.48+Math.random()*.12);fiberGroup.add(d);dirt.push(d)}
+// Pisau cleaver bergerak saat langkah cleaving.
+const arc=new THREE.Mesh(new THREE.SphereGeometry(.12,18,14),new THREE.MeshBasicMaterial({color:0x8af3ff}));
+arc.position.set(0,.82,-.42);arc.visible=false;machine.add(arc);
+const arcLight=new THREE.PointLight(0x4ceaff,0,2);arcLight.position.copy(arc.position);machine.add(arcLight);
+
+// Cleaver, stripper, cleaning bottle, sleeve
+const cleaver=new THREE.Group();cleaver.position.set(-2.4,1.0,.8);root.add(cleaver);
+const cleaverBlade=cyl(cleaver,'Bilah bergerak',.025,.025,.2,[.22,.31,0],M.orange,12,[Math.PI/2,0,0]);
+box(cleaver,'Bodi cleaver',[.95,.22,.55],[0,.12,0],M.body);box(cleaver,'Rel cleaver',[.65,.035,.1],[0,.25,0],mat(0x263343,.62,.18));box(cleaver,'Pisau cleaver',[.12,.035,.18],[.22,.28,0],M.orange);
+const stripper=new THREE.Group();stripper.position.set(2.25,1,.9);root.add(stripper);
+box(stripper,'Pegangan stripper',[.78,.10,.16],[0,.14,0],M.blue);cyl(stripper,'Lubang stripper',.12,.12,.18,[0,.22,0],M.orange,24,[Math.PI/2,0,0]);
+cyl(root,'Botol pembersih',.14,.12,.48,[3.15,1.3,1.1],M.white);cyl(root,'Tutup botol',.1,.1,.12,[3.15,1.6,1.1],M.blue);
+const sleeve=cyl(root,'Sleeve protector',.05,.05,.7,[2.9,1.04,.3],M.glass,18,[0,0,Math.PI/2]);sleeve.visible=false;
+
+// Labels
+function label(text,pos){const c=document.createElement('canvas');c.width=512;c.height=96;const ctx=c.getContext('2d');ctx.fillStyle='#101722';ctx.fillRect(0,0,512,96);ctx.strokeStyle='#58a6ff';ctx.lineWidth=4;ctx.strokeRect(3,3,506,90);ctx.font='bold 32px sans-serif';ctx.fillStyle='#e6edf3';ctx.textAlign='center';ctx.fillText(text,256,60);const tex=new THREE.CanvasTexture(c);const mesh=new THREE.Mesh(new THREE.PlaneGeometry(1.8,.34),new THREE.MeshBasicMaterial({map:tex,transparent:true,side:THREE.DoubleSide}));mesh.position.set(...pos);root.add(mesh)}
+label('FUSION SPLICER',[0,2.4,-.8]);label('CLEAVER',[-2.4,1.72,.8]);label('FIBER STRIPPER',[2.25,1.72,.9]);
+
+// Camera orbit controls, implemented without extra libraries
+function updateCamera(){polar=Math.max(.25,Math.min(1.48,polar));radius=Math.max(5.4,Math.min(17,radius));camera.position.set(target.x+radius*Math.sin(polar)*Math.sin(azimuth),target.y+radius*Math.cos(polar),target.z+radius*Math.sin(polar)*Math.cos(azimuth));camera.lookAt(target)}
+updateCamera();
+let dragging=false,lastX=0,lastY=0,lastPinch=0;
+canvas.addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY;canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener('pointermove',e=>{if(!dragging)return;azimuth-=(e.clientX-lastX)*.008;polar+=(e.clientY-lastY)*.006;lastX=e.clientX;lastY=e.clientY;updateCamera()});
+canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);
+canvas.addEventListener('wheel',e=>{radius+=e.deltaY*.012;updateCamera();e.preventDefault()},{passive:false});
+$('#zoomIn').onclick=()=>{radius-=.8;updateCamera()};$('#zoomOut').onclick=()=>{radius+=.8;updateCamera()};
+$('#resetCamera').onclick=()=>{azimuth=.7;polar=1;radius=10.7;target.set(0,1.1,0);updateCamera()};
+window.addEventListener('keydown',e=>{if(e.key==='r'||e.key==='R')$('#resetCamera').click();if(e.key==='+'||e.key==='=')$('#zoomIn').click();if(e.key==='-')$('#zoomOut').click();if(e.code==='Space'&&document.activeElement.tagName!=='BUTTON'){e.preventDefault();$('#doStep').click()}});
+
+// Visual motion helpers: make each practical action visibly change the 3D scene.
+function tweenVector(obj, prop, to, duration=550){
+ const from=obj[prop].clone(), end=new THREE.Vector3(...to), start=performance.now();
+ function tick(now){const t=Math.min(1,(now-start)/duration), eased=1-Math.pow(1-t,3);obj[prop].lerpVectors(from,end,eased);if(t<1)requestAnimationFrame(tick)}
+ requestAnimationFrame(tick);
+}
+function pulseObject(obj, duration=650){
+ const original=obj.scale.clone(), start=performance.now();
+ function tick(now){const t=Math.min(1,(now-start)/duration);const pulse=1+Math.sin(t*Math.PI)*.45;obj.scale.set(original.x*pulse,original.y*pulse,original.z*pulse);if(t<1)requestAnimationFrame(tick);else obj.scale.copy(original)}
+ requestAnimationFrame(tick);
+}
+// Guided practical state: each action changes the 3D scene and must be done in order.
+const steps=[
+ ['1. Persiapan alat','Periksa alat. Klik “Mulai / lakukan langkah” untuk memulai sesi praktik.'],
+ ['2. Stripping kabel','Kupas coating virtual pada kedua ujung kabel. Setelah berhasil, coating biru akan hilang dan bagian serat terbuka terlihat.'],
+ ['3. Cleaning fiber','Bersihkan serat. Partikel kontaminasi ilustratif akan hilang setelah cleaning.'],
+ ['4. Cleaving','Potong ujung serat menggunakan cleaver. Bilah bergerak dan ujung fiber berubah menjadi rata.'],
+ ['5. Loading & alignment','Tutup penutup mesin, lalu lakukan alignment. Panel LCD akan menampilkan posisi core yang sejajar.'],
+ ['6. Fusion splicing','Pastikan penutup tertutup dan alignment selesai. Jalankan fusion untuk melihat busur listrik dan terbentuknya sambungan.'],
+ ['7. Proteksi & evaluasi','Pasang sleeve protector di tengah sambungan. Setelah itu evaluasi skor dan estimasi loss.']
 ];
-const questions=[
-{q:'Bagian serat optik yang menjadi jalur utama rambatan cahaya adalah…',o:['Coating','Core','Jacket','Strength member'],a:1,e:'Core adalah inti optik tempat cahaya dipandu.'},
-{q:'Fungsi utama cladding adalah…',o:['Menjadi konektor listrik','Melindungi kabel dari air saja','Membantu memandu cahaya dengan indeks bias lebih rendah dari core','Mengukur daya optik'],a:2,e:'Perbedaan indeks bias core dan cladding mendukung pemantulan internal total.'},
-{q:'Alat untuk membuat ujung serat terpotong rapi sebelum fusion splice adalah…',o:['Fiber cleaver','LAN tester','Crimping tool','Access point'],a:0,e:'Fiber cleaver dirancang untuk menghasilkan ujung serat yang sesuai untuk penyambungan.'},
-{q:'Alat yang melebur dan menyelaraskan dua ujung serat adalah…',o:['OTDR','Fusion splicer','Optical power meter','Media converter'],a:1,e:'Fusion splicer menyelaraskan lalu melebur ujung serat.'},
-{q:'Mengapa serat perlu dibersihkan sebelum penyambungan?',o:['Agar warna kabel berubah','Agar core membesar','Untuk menghilangkan kontaminan yang dapat memengaruhi hasil sambungan','Untuk menambah panjang gelombang'],a:2,e:'Debu atau kontaminan dapat menurunkan kualitas sambungan.'},
-{q:'Perangkat yang umum dipakai untuk mengukur daya optik terima adalah…',o:['Optical power meter','Switch PoE','Crimping tool','DHCP server'],a:0,e:'Optical power meter mengukur daya optik pada titik ukur.'},
-{q:'Daya masuk −2 dBm dan daya terima −5 dBm. Loss sederhana adalah…',o:['−7 dB','2 dB','3 dB','7 dB'],a:2,e:'Loss = −2 − (−5) = 3 dB.'},
-{q:'Manakah tindakan keselamatan yang benar?',o:['Melihat langsung ke ujung serat untuk mengecek cahaya','Meniup serpihan serat','Membuang potongan serat ke lantai','Mengumpulkan serpihan pada wadah khusus sesuai SOP'],a:3,e:'Serpihan serat sangat kecil dan berbahaya; tangani sesuai SOP dan gunakan wadah khusus.'},
-{q:'Protection sleeve digunakan untuk…',o:['Melindungi area sambungan setelah fusion','Mengukur panjang gelombang','Mengupas coating','Mendeteksi alamat IP'],a:0,e:'Sleeve memberi perlindungan mekanis pada area sambungan.'},
-{q:'Nilai splice loss yang ditampilkan mesin selalu menjamin seluruh link memenuhi standar?',o:['Ya, dalam semua kondisi','Tidak; link perlu diuji dan hasil dibandingkan dengan anggaran link serta standar proyek','Ya, jika kabel berwarna kuning','Tidak perlu pengujian lain'],a:1,e:'Estimasi mesin bukan satu-satunya bukti; evaluasi link dan kriteria proyek tetap diperlukan.'}
-];
-function getData(){try{return JSON.parse(localStorage.getItem(STORAGE))||{history:[],lessons:[],labComplete:false,studentName:'',studentClass:''}}catch(e){return {history:[],lessons:[],labComplete:false,studentName:'',studentClass:''}}}
-function saveData(d){localStorage.setItem(STORAGE,JSON.stringify(d));}
-function levelFor(score){if(score>=90)return 'Ahli Fiber';if(score>=75)return 'Teknisi Muda';if(score>=60)return 'Praktikan';return 'Pemula'}
-function latest(){let d=getData();return d.history[d.history.length-1]||null}
-function showPage(name){$$('.page').forEach(x=>x.classList.toggle('hidden',x.id!=='page-'+name));$$('.navbtn').forEach(x=>x.classList.toggle('active',x.dataset.page===name));if(name==='laporan')renderReport();if(name==='kuis')renderQuiz();window.scrollTo({top:0,behavior:'smooth'})}
-$$('.navbtn').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
-$$('[data-goto]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.goto)));
-function markLesson(id){state.lessons.add(id);let d=getData();d.lessons=[...new Set([...(d.lessons||[]),id])];saveData(d);updateHome();alert('Materi ditandai selesai. Lanjutkan ke materi atau simulasi berikutnya.')}
-function renderHome(){let d=getData();$('#studentName').value=d.studentName||'';$('#studentClass').value=d.studentClass||'';updateHome()}
-function updateHome(){let d=getData(),done=(d.lessons||[]).length,lab=d.labComplete?1:0,quiz=d.history.length?1:0;$('#homeProgress').textContent=Math.round((done/3+lab+quiz)/5*100)+'%';$('#homeScore').textContent=latest()?latest().score+'/100':'—';$('#homeLevel').textContent=latest()?latest().level:'Pemula'}
-['studentName','studentClass'].forEach(id=>$('#'+id).addEventListener('change',()=>{let d=getData();d[id==='studentName'?'studentName':'studentClass']=$('#'+id).value.trim();saveData(d)}));
-function renderLab(){let s=labSteps[state.step];$('#stepIndicators').innerHTML=labSteps.map((x,i)=>`<span class="step ${state.doneSteps.has(i)?'done':i===state.step?'current':''}">${i+1}. ${x.title.split(':')[1].trim()}</span>`).join('');$('#stepTitle').textContent=s.title;$('#stepDesc').textContent=s.desc;$('#labFeedback').className='feedback hidden';$('#nextStep').disabled=true;$('#nextStep').textContent=state.step===labSteps.length-1?'Selesaikan simulasi ✓':'Langkah berikutnya →';$$('.equipment').forEach(b=>b.classList.toggle('selected',b.dataset.tool===state.tool));}
-$$('.equipment').forEach(b=>b.addEventListener('click',()=>{state.tool=b.dataset.tool;$$('.equipment').forEach(x=>x.classList.toggle('selected',x===b));let s=labSteps[state.step],fb=$('#labFeedback');fb.classList.remove('hidden','good','bad');if(state.tool===s.tool){state.doneSteps.add(state.step);fb.classList.add('good');fb.innerHTML='<b>Tepat.</b> '+s.why;$('#nextStep').disabled=false}else{fb.classList.add('bad');fb.innerHTML='Belum tepat untuk langkah ini. Baca instruksi lalu pilih alat yang sesuai.'}}));
-$('#nextStep').addEventListener('click',()=>{if(state.step<labSteps.length-1){state.step++;state.tool=null;renderLab()}else{let d=getData();d.labComplete=true;saveData(d);$('#labFeedback').className='feedback good';$('#labFeedback').innerHTML='<b>Simulasi selesai!</b> Anda telah melewati urutan kerja virtual. Kerjakan kuis untuk mengukur pemahaman.';$('#nextStep').disabled=true;updateHome()}});
-$('#resetLab').addEventListener('click',()=>{state.step=0;state.tool=null;state.doneSteps.clear();renderLab()});
-function renderQuiz(){if(state.quizSubmitted)return;let saved=getData();$('#quizName').value=$('#quizName').value||saved.studentName||'';$('#quizClass').value=$('#quizClass').value||saved.studentClass||'';$('#quizQuestions').innerHTML=questions.map((q,i)=>`<div class="panel" style="padding:15px;margin:12px 0"><b>${i+1}. ${q.q}</b>${q.o.map((o,j)=>`<label class="choice"><input type="radio" name="q${i}" value="${j}"><span>${String.fromCharCode(65+j)}. ${o}</span></label>`).join('')}</div>`).join('');$('#quizQuestions').addEventListener('change',updateQuizProgress);updateQuizProgress()}
-function updateQuizProgress(){let count=questions.filter((q,i)=>document.querySelector(`input[name="q${i}"]:checked`)).length;$('#quizProgress').style.width=(count/questions.length*100)+'%'}
-$('#submitQuiz').addEventListener('click',()=>{if(state.quizSubmitted)return;let answers=questions.map((q,i)=>{let x=document.querySelector(`input[name="q${i}"]:checked`);return x?Number(x.value):null});if(answers.includes(null)){if(!confirm('Masih ada soal yang belum dijawab. Tetap kirim jawaban?'))return}let correct=answers.filter((a,i)=>a===questions[i].a).length,score=Math.round(correct/questions.length*100),name=$('#quizName').value.trim()||'Siswa',cls=$('#quizClass').value.trim()||'-',entry={date:new Date().toLocaleString('id-ID'),name,cls,correct,total:questions.length,score,level:levelFor(score),answers};let d=getData();d.studentName=name;d.studentClass=cls;d.history.push(entry);saveData(d);state.quizSubmitted=true;
-$('#quizQuestions').innerHTML=questions.map((q,i)=>`<div class="panel" style="padding:14px;margin:10px 0"><b>${i+1}. ${q.q}</b><p class="${answers[i]===q.a?'':'feedback bad'}">Jawaban Anda: ${answers[i]===null?'Tidak dijawab':String.fromCharCode(65+answers[i])+'. '+q.o[answers[i]]}</p><p class="success" style="padding:9px;border-radius:8px">Jawaban benar: ${String.fromCharCode(65+q.a)}. ${q.o[q.a]}<br><span class="small">${q.e}</span></p></div>`).join('');
-$('#quizResult').classList.remove('hidden');$('#quizResult').className='feedback '+(score>=75?'good':'bad');$('#quizResult').innerHTML=`<h3>Hasil: ${score}/100</h3><p>${correct} dari ${questions.length} jawaban benar. Level: <b>${entry.level}</b>.</p><p>${score>=75?'Target belajar tercapai. Lanjutkan dengan praktik terawasi.':'Pelajari kembali bagian yang belum dikuasai, lalu ulangi kuis.'}</p><button onclick="resetQuiz()">Ulangi kuis</button> <button class="secondary" onclick="showPage('laporan')">Lihat laporan</button>`;$('#submitQuiz').disabled=true;updateHome()});
-function resetQuiz(){state.quizSubmitted=false;$('#submitQuiz').disabled=false;$('#quizResult').classList.add('hidden');renderQuiz()}
-function renderReport(){let d=getData(),h=d.history||[],last=h[h.length-1];$('#reportName').textContent=d.studentName||'—';$('#reportScore').textContent=last?last.score+'/100':'—';$('#reportLevel').textContent=last?last.level:'Pemula';let rows=[['Materi konsep dasar',(d.lessons||[]).includes('konsep')?'Selesai':'Belum','konsep'],['Materi alat',(d.lessons||[]).includes('alat')?'Selesai':'Belum','alat'],['Materi loss',(d.lessons||[]).includes('loss')?'Selesai':'Belum','loss'],['Simulasi splicing',d.labComplete?'Selesai':'Belum','lab'],['Kuis evaluasi',last?last.score+'/100':'Belum dikerjakan','quiz']];$('#reportRows').innerHTML=rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[1]==='Belum'?'Perlu dikerjakan':r[1]==='Selesai'||r[1].includes('/100')?'Tercatat':'—'}</td></tr>`).join('');$('#historyRows').innerHTML=h.length?h.slice().reverse().map(x=>`<tr><td>${x.date}</td><td>${escapeHtml(x.name)}</td><td>${escapeHtml(x.cls)}</td><td>${x.correct}/${x.total}</td><td>${x.score}</td><td>${x.level}</td></tr>`).join(''):'<tr><td colspan="6">Belum ada hasil kuis.</td></tr>'}
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-$('#exportCsv').addEventListener('click',()=>{let h=getData().history||[];if(!h.length){alert('Belum ada riwayat kuis untuk diekspor.');return}let lines=[['Tanggal','Nama','Kelas','Benar','Jumlah Soal','Skor','Level'],...h.map(x=>[x.date,x.name,x.cls,x.correct,x.total,x.score,x.level])];let csv='\ufeff'+lines.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));a.download='laporan-nilai-fiber-optik.csv';a.click();URL.revokeObjectURL(a.href)});
-$('#printReport').addEventListener('click',()=>window.print());
-$('#clearHistory').addEventListener('click',()=>{if(confirm('Hapus semua riwayat nilai dan progres yang tersimpan di browser ini?')){localStorage.removeItem(STORAGE);state.lessons.clear();state.doneSteps.clear();state.step=0;state.tool=null;state.quizSubmitted=false;renderHome();renderLab();renderReport();alert('Data lokal telah dihapus.')}})
-renderHome();renderLab();renderReport();
-</script></body></html>
+let step=0,started=false,stripped=false,cleaned=false,cleaved=false,aligned=false,fused=false,protectedFiber=false,score=0,loss=null;
+function notify(s){const t=$('#toast');t.textContent=s;t.style.display='block';clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.style.display='none',2400)}
+function isDone(){return [started,stripped,cleaned,cleaved,aligned,fused,protectedFiber][step]}
+function setToolFocus(){
+ document.querySelectorAll('.buttons button').forEach(b=>b.classList.remove('active-tool'));
+ const focus = step===2?$('#clean'):step===5?$('#fusion'):step===4?$('#lid'):$('#doStep');
+ if(focus)focus.classList.add('active-tool');
+}
+function updateUI(){
+ $('#stepTitle').textContent=steps[step][0];$('#stepCount').textContent=(step+1)+' / '+steps.length;
+ $('#instruction').textContent=steps[step][1];$('#progressBar').style.width=(step/(steps.length-1)*100)+'%';
+ $('#score').textContent=score+' / 100';$('#loss').textContent=loss===null?'— dB':loss.toFixed(2)+' dB';
+ $('#quality').textContent=loss===null?'Belum diuji':loss<.15?'Baik (simulasi)':loss<.35?'Cukup (simulasi)':'Perlu perbaikan';
+ $('#nextStep').disabled=!isDone();$('#fusion').disabled=step!==5||!aligned||fused;
+ $('#doStep').disabled=step===2||step===5;
+ $('#clean').disabled=step!==2||!stripped||cleaned;
+ $('#lid').disabled=step!==4&&step!==5;
+ $('#doStep').textContent=step===0&&!started?'Mulai praktik':step===1?'Lakukan stripping':step===3?'Lakukan cleaving':step===4?'Lakukan alignment':step===6?'Pasang sleeve':'Lakukan langkah';
+ $('#lid').textContent=lidOpen?'Tutup penutup':'Buka penutup';
+ $('#lcdStatus').textContent=fused?'FUSED':aligned?'ALIGN OK':cleaned?'CLEAN':stripped?'STRIPPED':'READY';
+ $('#leftAlign').textContent=aligned?'X: 0.0':'X: ±0.8';$('#rightAlign').textContent=aligned?'X: 0.0':'X: ±0.8';
+ $('#offset').textContent=aligned?'0.0':'1.8';$('#lcdLoss').textContent=loss===null?'-- dB':loss.toFixed(2)+' dB';
+ $('#stageNote').textContent=step===4?'Alignment hanya dapat dilakukan saat penutup tertutup.':step===5?'Peringatan keselamatan: penutup wajib tertutup sebelum fusion.':'Tahap aktif: '+steps[step][0];
+ setToolFocus();
+}
+$('#doStep').onclick=()=>{
+ if(step===0&&!started){started=true;score+=5;notify('Persiapan alat dicatat.');}
+ else if(step===1&&!stripped){
+   stripped=true;score=Math.min(100,score+10);
+   // Tarik coating ke arah luar agar perubahan mudah dilihat.
+   tweenVector(coatL,'position',[-1.05,.82,-.42],700);
+   tweenVector(coatR,'position',[1.05,.82,-.42],700);
+   pulseObject(tipL);pulseObject(tipR);
+   setTimeout(()=>{coatL.visible=false;coatR.visible=false},720);
+   notify('Stripping: coating ditarik dan serat kaca terbuka.');
+ }
+ else if(step===3&&!cleaved){
+   cleaved=true;
+   const bladeStart=cleaverBlade.position.y;cleaverBlade.position.y=.12;
+   pulseObject(cleaverBlade,700);pulseObject(tipL,700);pulseObject(tipR,700);
+   tipL.material=M.white;tipR.material=M.white;
+   score=Math.min(100,score+15);notify('Cleaving: bilah turun memotong ujung fiber.');
+   setTimeout(()=>{cleaverBlade.position.y=bladeStart},450);
+ }
+ else if(step===4){
+   if(lidOpen){notify('Tutup penutup mesin sebelum alignment.');return}
+   if(!stripped||!cleaned||!cleaved){notify('Selesaikan stripping, cleaning, dan cleaving terlebih dahulu.');return}
+   aligned=true;
+   // Ujung fiber bergerak nyata menuju titik sambung di tengah.
+   tweenVector(tipL,'position',[-.065,.82,-.42],650);
+   tweenVector(tipR,'position',[.065,.82,-.42],650);
+   tweenVector(leftFiber,'position',[.10,0,0],650);
+   tweenVector(rightFiber,'position',[-.10,0,0],650);
+   pulseObject(tipL,700);pulseObject(tipR,700);
+   score=Math.min(100,score+15);notify('Alignment: kedua ujung fiber bergerak ke titik sambung. LCD offset 0.0 µm.');
+ }
+ else if(step===6&&!protectedFiber){
+   if(!fused){notify('Selesaikan fusion terlebih dahulu.');return}
+   protectedFiber=true;sleeve.visible=true;
+   sleeve.position.set(2.9,1.04,.3);
+   tweenVector(sleeve,'position',[0,1.82,-.52],850);
+   pulseObject(sleeve,900);
+   score=Math.min(100,score+15);notify('Sleeve protector bergeser ke tengah sambungan.');
+ }
+ else if(step===2){notify('Gunakan tombol Bersihkan fiber untuk tahap cleaning.');}
+ else if(step===5){notify('Gunakan tombol Mulai fusion untuk menjalankan busur listrik.');}
+ updateUI();
+};
+$('#nextStep').onclick=()=>{
+ if(!isDone())return;
+ if(step<steps.length-1){step++;updateUI()}
+ else{$('#instruction').textContent='Praktik selesai. Skor akhir '+score+'/100. Estimasi loss hanya untuk pembelajaran, bukan hasil ukur nyata.';$('#stageNote').textContent='Sesi selesai. Tekan “Ulangi simulasi” untuk berlatih lagi.';notify('Simulasi selesai!')}
+};
+$('#lid').onclick=()=>{
+ lidOpen=!lidOpen;lidPivot.rotation.x=lidOpen?-.95:0;
+ notify(lidOpen?'Penutup dibuka.':'Penutup ditutup.');
+ if(step===4&&!lidOpen)notify('Penutup tertutup. Sekarang lakukan alignment.');
+ updateUI()
+};
+$('#clean').onclick=()=>{
+ if(step!==2||!stripped){notify('Cleaning baru tersedia setelah stripping.');return}
+ if(cleaned){notify('Fiber sudah dibersihkan.');return}
+ cleaned=true;dirt.forEach((d,i)=>{const from=d.position.clone();const start=performance.now()+i*25;function fall(now){const t=Math.min(1,(now-start)/450);d.position.y=from.y-0.5*t;if(t<1)requestAnimationFrame(fall);else d.visible=false}requestAnimationFrame(fall)});score=Math.min(100,score+15);
+ notify('Cleaning: partikel kontaminasi bergerak menjauh dari fiber.');updateUI()
+};
+$('#fusion').onclick=()=>{
+ if(step!==5||!aligned||fused)return;
+ if(lidOpen){notify('Tutup penutup sebelum fusion.');return}
+ fused=true;
+ // Estimasi pedagogis sederhana; bukan simulasi fisika atau pengukuran optik.
+ const penalty=(cleaned?0:.18)+(cleaved?0:.20)+(aligned?0:.04);
+ loss=.08+penalty+Math.random()*.05;
+ leftFiber.material=rightFiber.material=M.green;
+ tipL.material=tipR.material=M.green;
+ arc.visible=true;arc.scale.setScalar(.25);arcLight.intensity=18;
+ pulseObject(arc,950);pulseObject(tipL,850);pulseObject(tipR,850);
+ score=Math.min(100,score+20);$('#lcdStatus').textContent='ARC ON';
+ notify('Fusion: busur listrik menyala dan kedua ujung menyatu.');updateUI();
+ setTimeout(()=>{arc.visible=false;arcLight.intensity=0},1100);
+};
+$('#reset').onclick=()=>{
+ step=0;started=stripped=cleaned=cleaved=aligned=fused=protectedFiber=false;score=0;loss=null;
+ lidOpen=false;lidPivot.rotation.x=0;coatL.visible=coatR.visible=true;coatL.position.set(-.53,.82,-.42);coatR.position.set(.53,.82,-.42);dirt.forEach(d=>{d.visible=true;d.position.set(-.65+Math.random()*1.3,.86+Math.random()*.06,-.48+Math.random()*.12)});
+ leftFiber.position.set(0,0,0);rightFiber.position.set(0,0,0);
+ leftFiber.material=rightFiber.material=M.fiber;tipL.material=tipR.material=M.glass;
+ tipL.position.x=-.17;tipR.position.x=.17;tipL.scale.set(1,1,1);tipR.scale.set(1,1,1);
+ cleaverBlade.position.y=.31;sleeve.visible=false;sleeve.position.set(2.9,1.04,.3);arc.visible=false;
+ updateUI();notify('Simulasi diulang dari awal.')
+};
+// Resize and render
+function resize(){const w=viewport.clientWidth,h=viewport.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}
+new ResizeObserver(resize).observe(viewport);window.addEventListener('orientationchange',resize);resize();
+const clock=new THREE.Clock();
+function animate(){requestAnimationFrame(animate);const t=clock.getElapsedTime();if(arc.visible){arc.scale.setScalar(.8+Math.sin(t*38)*.25);arcLight.intensity=10+Math.random()*8}else arcLight.intensity=0;renderer.render(scene,camera)}
+updateUI();animate();
+</script>
+</body>
+</html>
